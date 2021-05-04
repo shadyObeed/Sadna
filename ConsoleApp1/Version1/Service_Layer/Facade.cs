@@ -82,7 +82,6 @@ namespace Version1.Service_Layer
             bool f = AddNewProductToSystem(barcode, productName, descreption, price, categories);
             bool s = AddItemToStore(shopName, barcode, amount);
             return s & f;
-
         }
         
 
@@ -180,7 +179,7 @@ namespace Version1.Service_Layer
         public bool AddNewManger(string user, string store, string newMangerName)
         {
             //todo add permissions parameter
-            return MakeNewManger(store, user, newMangerName, 0);
+            return MakeNewManger(store, user, newMangerName, 7);
         }
 
         public bool IsManger(string storeName, string mangerName)
@@ -605,9 +604,7 @@ namespace Version1.Service_Layer
         public bool UpdateProductAmountInStore(string userName, string storeName, string productBarcode, int amount)
         {
             return logicInstance.UpdateProductAmountInStore(userName, storeName, productBarcode, amount);
-
         }
-
         //2
         public bool RemoveProductFromStore(string userName, string storeName, string productBarcode)
         {

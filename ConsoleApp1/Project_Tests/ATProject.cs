@@ -143,7 +143,7 @@ namespace Project_tests
         
         protected bool AddNewManger(string storeName, string apointerName, string apointeeNAme)
         {
-            return service.AddNewManger(storeName, apointerName, apointeeNAme);
+            return service.AddNewManger(apointerName,storeName , apointeeNAme);
         }
 
         protected bool IsOwner(string storeName, string ownerName)
@@ -152,7 +152,7 @@ namespace Project_tests
         }
         protected bool IsManger(string storeName, string mangerName)
         {
-            return service.IsOwner(storeName, mangerName);
+            return service.IsManger(storeName, mangerName);
         }
 
         protected List<string> getMangerResponsibilities(string user,string store, string newMangerName)

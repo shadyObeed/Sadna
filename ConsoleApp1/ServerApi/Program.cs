@@ -39,9 +39,9 @@ namespace ServiceApi
                     }
                    
                 }
-                catch (Exception xxx)
+                catch (Exception ex)
                 {
-                 Logger.GetInstance().Error("fatal error exception in server program start exited infinite waiting period");   
+                    Logger.GetInstance().Error("fatal error exception in server program start exited infinite waiting period" + ex);   
                 }
             });
             
@@ -50,8 +50,9 @@ namespace ServiceApi
                 try
                 {
                     List<ObserverUser> observerUsers = new List<ObserverUser>();
-                    var server = new WebSocketServer("ws://0.0.0.0:8181");
-                    server.Start(socket =>
+                    //init serverSocket
+                    var socketServer = new WebSocketServer("ws://0.0.0.0:8181");
+                    socketServer.Start(socket =>
                     {
                         socket.OnOpen = () =>
                         {
@@ -83,6 +84,23 @@ namespace ServiceApi
                                 Console.WriteLine("Open " + "server");
                             }
                         };
+                        
+                        socket.OnMessage = message =>
+                        {
+                            Logger.GetInstance().Event(message);
+                            
+                            //format in both sides is : userid # msg
+                            string[] cmd = message.Split('#');
+                            string userName = cmd[0];
+                            
+                            //get userNameList to notify
+                            List<ObserverUser> res = observerUsers.Where(x => x.userName == userName).ToList();
+                            
+                            //send notification for the user that the message has been arrived ???
+                            if (res.Count > 0) res[0].notify(cmd[1]);
+
+                            Console.WriteLine(message + " " + res.Count);
+                        };
                         socket.OnClose = () =>
                         {
                             if (socket.ConnectionInfo.Path.ToString().Contains("user"))
@@ -96,21 +114,6 @@ namespace ServiceApi
                             {
                                 Console.WriteLine("Open " + "server");
                             }
-                        };
-                        socket.OnMessage = message =>
-                        {
-                            Logger.GetInstance().Event(message);
-                            //userid # msg
-                            string[] cmd = message.Split('#');
-                            string userName = cmd[0];
-                            
-                            //get userNameList to notify
-                            List<ObserverUser> res = observerUsers.Where(x => x.userName == userName).ToList();
-                            
-                            //send notification for the user that the message has been arrived ???
-                            if (res.Count > 0) res[0].notify(cmd[1]);
-
-                            Console.WriteLine(message + " " + res.Count);
                         };
                     });
 

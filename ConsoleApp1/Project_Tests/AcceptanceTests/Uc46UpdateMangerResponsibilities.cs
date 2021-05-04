@@ -34,7 +34,7 @@ namespace Project_Tests.AcceptanceTests
             OpenStore(userName, storeName,"sellPolicy");
         }
 
-        [Test]
+        //[Test]
         public void Test()
         {
             //happy

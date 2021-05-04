@@ -13,6 +13,7 @@ namespace Project_Tests.AcceptanceTests
         //private static User user;
         string storeName;
         private string userName ;
+        
         [SetUp]
         public void Setup()
         {
@@ -38,12 +39,12 @@ namespace Project_Tests.AcceptanceTests
             //happy
             string newOwnerName = "user1";
             
-            Assert.True(AddNewOwner("user0", storeName, newOwnerName));
+            Assert.True(AddNewOwner(storeName,"user0" , newOwnerName));
             Assert.True(IsOwner(storeName, newOwnerName));
             
             //bad
             UserLogin(newOwnerName, "user1");
-            Assert.False(AddNewOwner("user1", storeName, "user0"));
+            Assert.False(AddNewOwner(storeName,"user1",  "user0"));
         }
        
     }

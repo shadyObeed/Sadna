@@ -54,7 +54,6 @@ namespace Project_Tests.AcceptanceTests
             Assert.True(ExternalFinanceService.log[0].Equals("connected"));
             Assert.True(ExternalSupplyService.log.Count == 1);  // only connection is from the setup
             Assert.True(ExternalSupplyService.log[0].Equals("connected"));
-            
         }
 
         [Test]
@@ -87,13 +86,11 @@ namespace Project_Tests.AcceptanceTests
         public void TearDown()
         {
             var real = new RealProject();
-            
             real.DeleteUser(TestUserName);
             real.DeleteStore(TestStoreName);
             ExternalFinanceService.CreateConnection();
             ExternalSupplyService.CreateConnection();
-
-
+            
         }
         
     }

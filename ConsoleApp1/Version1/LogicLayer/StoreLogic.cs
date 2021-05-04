@@ -111,7 +111,10 @@ namespace Version1.LogicLayer
             var newManager = DataHandler.Instance.GetUser(apointeeid);
             var store = DataHandler.Instance.GetStore(storeName);
             if (appointerUser == null || newManager == null || store == null) return false;
-            if (IsManger(storeName, apointeeid) || !IsValidPermission(permissions)) return false;
+            if (!IsOwner(storeName,apointerid) && !IsManger(storeName, apointeeid)) 
+                return false;
+            if(!IsValidPermission(permissions))
+                return false;
             store.GetManagers().Add(apointeeid , permissions);
             return true;
         }
